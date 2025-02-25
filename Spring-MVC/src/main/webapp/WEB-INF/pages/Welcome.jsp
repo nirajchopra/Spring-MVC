@@ -16,7 +16,7 @@
 	<br>
 	<br>
 	<div align="center">
-		<h1>spring-mvc-simple</h1>
+		<h1>spring-mvc-validation</h1>
 	</div>
 	<%@ include file="Footer.jsp"%>
 </body>

@@ -16,7 +16,10 @@
 		<sf:hidden path="pageNo" />
 		<table>
 			<tr>
+			<th>FirstName: </th>
 				<td><sf:input path="firstName" />&nbsp; &nbsp;</td>
+				
+				<th>FirstName: </th>
 				<td><sf:select path="id">
 						<sf:option value="0">-----------select------------</sf:option>
 						<sf:options items="${userList}" itemValue="id"

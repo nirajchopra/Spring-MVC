@@ -2,9 +2,12 @@ package com.rays.ctl;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +33,7 @@ public class UserCtl {
 	}
 
 	@GetMapping
-	public String display(@ModelAttribute("form") UserForm form, @RequestParam(required = false) Long id) {
+	public String display(@ModelAttribute("form") UserForm form, @RequestParam(required = false) Long id, Model model) {
 
 		if (id != null && id > 0) {
 			UserDTO dto = service.findByPk(id);
@@ -47,7 +50,11 @@ public class UserCtl {
 	}
 
 	@PostMapping
-	public String submit(@ModelAttribute("form") UserForm form) {
+	public String submit(@ModelAttribute("form") @Valid UserForm form, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			return "UserView";
+		}
 
 		UserDTO dto = new UserDTO();
 		dto.setId(form.getId());
@@ -60,8 +67,10 @@ public class UserCtl {
 
 		if (form.getId() > 0) {
 			service.update(dto);
+			model.addAttribute("success", "User Updated Successfully..!!");
 		} else {
 			service.add(dto);
+			model.addAttribute("success", "User Added Successfully..!!");
 		}
 		return "UserView";
 	}
@@ -92,21 +101,30 @@ public class UserCtl {
 		int pageSize = 5;
 
 		if (operation.equals("next")) {
+
 			pageNo = form.getPageNo();
+
 			pageNo++;
+
 		}
 
 		if (operation.equals("previous")) {
+
 			pageNo = form.getPageNo();
+
 			pageNo--;
+
 		}
 
 		if (operation.equals("search")) {
-			dto = new UserDTO();
-			dto.setId(form.getId());
-			dto.setFirstName(form.getFirstName());
-		}
 
+			dto = new UserDTO();
+
+			dto.setId(form.getId());
+
+			dto.setFirstName(form.getFirstName());
+
+		}
 		if (operation.equals("delete")) {
 			if (form.getIds() != null && form.getIds().length > 0) {
 				for (long id : form.getIds()) {

@@ -1,10 +1,8 @@
 package com.rays.form;
 
-import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import com.rays.common.BaseForm;
-
-public class RoleForm extends BaseForm {
+public class RoleForm  {
 
 	@NotEmpty(message = "name is required")
 	private String name;
